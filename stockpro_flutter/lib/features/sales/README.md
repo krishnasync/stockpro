@@ -1,0 +1,22 @@
+# sales — Phase 4+ (not yet implemented)
+
+Follow the exact pattern established in `lib/features/auth`:
+
+```
+sales/
+  domain/
+    entities/        # plain Dart classes
+    repositories/     # abstract contracts
+    usecases/         # optional, for multi-step orchestration
+  data/
+    models/           # fromJson/toJson mapped to schema tables
+    datasources/       # the only files that import supabase_flutter
+    repositories/       # implements domain contracts, maps exceptions -> Failure
+  presentation/
+    providers/         # Riverpod wiring + AsyncNotifier ViewModels
+    screens/
+    widgets/
+```
+
+Relevant tables from `02_database_schema.sql`:
+- customers, quotations, sales_orders, delivery_challans, invoices, sales_returns
