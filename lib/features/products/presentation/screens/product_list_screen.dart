@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../inventory/presentation/screens/add_stock_dialog.dart';
 import '../providers/product_provider.dart';
 
 class ProductListScreen extends ConsumerWidget {
@@ -64,6 +65,17 @@ class ProductListScreen extends ConsumerWidget {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          IconButton(
+                            icon: const Icon(Icons.add_box_outlined),
+                            tooltip: 'Add stock',
+                            onPressed: () => showDialog(
+                              context: context,
+                              builder: (_) => AddStockDialog(
+                                productId: p.id,
+                                productName: p.name,
+                              ),
+                            ),
+                          ),
                           if (p.isOutOfStock)
                             const _StockBadge(
                                 label: 'Out of Stock',
