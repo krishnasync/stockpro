@@ -7,8 +7,46 @@ import 'core/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initSupabase();
-  runApp(const ProviderScope(child: StockProApp()));
+
+  Object? initError;
+  try {
+    await initSupabase();
+  } catch (e, st) {
+    initError = e;
+    debugPrint('Supabase init failed: $e\n$st');
+  }
+
+  runApp(
+    ProviderScope(
+      child: initError != null
+          ? _ErrorApp(error: initError)
+          : const StockProApp(),
+    ),
+  );
+}
+
+/// Shows the actual crash reason on-screen instead of a blank page —
+/// temporary debugging aid until we confirm the real cause.
+class _ErrorApp extends StatelessWidget {
+  final Object? error;
+  const _ErrorApp({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              'App failed to start:\n\n$error',
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class StockProApp extends ConsumerWidget {
@@ -23,7 +61,7 @@ class StockProApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system, // respects OS dark/light setting
+      themeMode: ThemeMode.system,
       routerConfig: router,
     );
   }

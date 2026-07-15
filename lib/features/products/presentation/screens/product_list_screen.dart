@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../providers/product_provider.dart';
 
@@ -21,7 +23,7 @@ class ProductListScreen extends ConsumerWidget {
             onPressed: () {}, // -> mobile_scanner flow, Phase 4
           ),
           FilledButton.icon(
-            onPressed: () {}, // -> product create form, Phase 4
+            onPressed: () => context.push(AppRoutes.productForm),
             icon: const Icon(Icons.add),
             label: const Text('New Product'),
           ),
@@ -55,6 +57,8 @@ class ProductListScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final p = products[index];
                     return ListTile(
+                      onTap: () =>
+                          context.push(AppRoutes.productForm, extra: p),
                       title: Text(p.name),
                       subtitle: Text('SKU: ${p.sku}'),
                       trailing: Row(

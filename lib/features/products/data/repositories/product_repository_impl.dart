@@ -46,10 +46,13 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<ProductEntity>> createProduct(ProductEntity product) async {
+  Future<Result<ProductEntity>> createProduct(
+      ProductEntity product, String companyId) async {
     try {
       final created = await _remote.createProduct({
+        'company_id': companyId,
         'name': product.name,
+        'product_code': product.sku,
         'sku': product.sku,
         'barcode': product.barcode,
         'purchase_price': product.purchasePrice,

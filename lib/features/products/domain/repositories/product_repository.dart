@@ -13,7 +13,8 @@ abstract class ProductRepository {
 
   Future<Result<List<ProductEntity>>> getLowStockProducts();
 
-  Future<Result<ProductEntity>> createProduct(ProductEntity product);
+  Future<Result<ProductEntity>> createProduct(
+      ProductEntity product, String companyId);
 
   Future<Result<void>> updateProduct(ProductEntity product);
 

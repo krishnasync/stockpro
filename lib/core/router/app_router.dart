@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../../features/products/domain/entities/product_entity.dart';
+import '../../features/products/presentation/screens/product_form_screen.dart';
 import '../../features/products/presentation/screens/product_list_screen.dart';
 
 /// Route paths as constants — avoids magic strings scattered through the
@@ -15,6 +16,7 @@ class AppRoutes {
   static const login = '/login';
   static const dashboard = '/dashboard';
   static const products = '/products';
+  static const productForm = '/products/form';
 }
 
 /// The router watches currentUserProvider and redirects automatically:
@@ -48,6 +50,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.products,
         builder: (context, state) => const ProductListScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.productForm,
+        builder: (context, state) {
+          final existingProduct = state.extra as ProductEntity?;
+          return ProductFormScreen(existingProduct: existingProduct);
+        },
       ),
     ],
   );
